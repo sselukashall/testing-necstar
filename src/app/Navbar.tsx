@@ -7,7 +7,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useTheme } from "next-themes";
 
 const Navbar = () => {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   return (
     <div className="p-4 flex flex-row justify-between items-center border-solid border-b border-orange-500">
       {theme === "light" ? (

@@ -24,12 +24,12 @@ export default function RootLayout({
       <body
         className={`${inter.className} bg-slate-50 dark:bg-[#0d1117] ${switchThemeDuration}`}
       >
-        <Web3Providers>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Navbar />
+          <Web3Providers>
+            <Navbar />
             <main>{children}</main>
+          </Web3Providers>
         </ThemeProvider>
-        </Web3Providers>
       </body>
     </html>
   );
