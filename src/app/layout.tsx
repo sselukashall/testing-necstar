@@ -5,6 +5,7 @@ import { ThemeProvider } from "./theme-provider";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 import { switchThemeDuration } from "@/constants";
 import { Web3Providers } from "./web3-providers";
+import Navbar from "./Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +26,7 @@ export default function RootLayout({
       >
         <Web3Providers>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <ThemeSwitcher />
+          <Navbar />
             <main>{children}</main>
         </ThemeProvider>
         </Web3Providers>
