@@ -2,10 +2,11 @@
 
 import * as React from "react";
 import "@rainbow-me/rainbowkit/styles.css";
-import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { getDefaultWallets, RainbowKitProvider, lightTheme, darkTheme } from "@rainbow-me/rainbowkit";
 import { Chain, configureChains, createConfig, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { sepolia } from "wagmi/chains";
+import { useTheme } from "next-themes";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [sepolia],
@@ -27,11 +28,18 @@ const wagmiConfig = createConfig({
 
 export const Web3Providers = ({ children }: { children: React.ReactNode }) => {
   const [mounted, setMounted] = React.useState(false);
+  const { theme } = useTheme();
 
   React.useEffect(() => setMounted(true), []);
+  if(!mounted) {
+    return null
+  }
+
+  console.log(theme)
+
   return (
     <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains}>
+      <RainbowKitProvider chains={chains} theme={theme === "light" ? lightTheme() : darkTheme()}>
         {mounted && children}
       </RainbowKitProvider>
     </WagmiConfig>
