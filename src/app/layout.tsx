@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Azeret_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./theme-provider";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
@@ -7,7 +7,7 @@ import { switchThemeDuration } from "@/constants";
 import { Web3Providers } from "./web3-providers";
 import Navbar from "./Navbar";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Azeret_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "necstar",

@@ -5,11 +5,11 @@ import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider, lightTheme, darkTheme } from "@rainbow-me/rainbowkit";
 import { Chain, configureChains, createConfig, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
-import { sepolia } from "wagmi/chains";
+import { mainnet, sepolia, goerli, polygonMumbai } from "wagmi/chains";
 import { useTheme } from "next-themes";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [sepolia],
+  [mainnet, sepolia, goerli, polygonMumbai],
   [alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_KEY! })]
 );
 
@@ -20,7 +20,7 @@ const { connectors } = getDefaultWallets({
 });
 
 const wagmiConfig = createConfig({
-  autoConnect: true,
+  autoConnect: false,
   connectors,
   publicClient,
   webSocketPublicClient,
@@ -35,12 +35,10 @@ export const Web3Providers = ({ children }: { children: React.ReactNode }) => {
     return null
   }
 
-  console.log(theme)
-
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider chains={chains} theme={theme === "light" ? lightTheme() : darkTheme()}>
-        {mounted && children}
+        {children}
       </RainbowKitProvider>
     </WagmiConfig>
   );
