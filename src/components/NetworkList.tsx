@@ -16,7 +16,7 @@ const NetworkList = () => {
         onChange={(e) => {
           switchNetwork?.(Number(e.target.value));
         }}
-        className="w-48 text-xs/[14] p-2 rounded-md focus:outline-none tracking-wide border border-solid border-orange-500 dark:border-none"
+        className="w-48 text-xs/[14] p-2 rounded-md focus:outline-none tracking-wide border border-solid border-orange-500 dark:border-none dark:bg-zinc-900"
       >
         {isConnected ? (
           <>

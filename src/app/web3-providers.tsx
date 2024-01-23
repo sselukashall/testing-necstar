@@ -7,6 +7,18 @@ import { Chain, configureChains, createConfig, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { mainnet, sepolia, goerli, polygonMumbai } from "wagmi/chains";
 import { useTheme } from "next-themes";
+import { Network } from "alchemy-sdk";
+
+interface Chains {
+  [key: string]: Network
+}
+
+export const Chains: Chains = {
+  [mainnet.name]: Network.ETH_MAINNET,
+  [sepolia.name]: Network.ETH_SEPOLIA,
+  [goerli.name]: Network.ETH_GOERLI,
+  [polygonMumbai.name]: Network.MATIC_MUMBAI
+}
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [mainnet, sepolia, goerli, polygonMumbai],

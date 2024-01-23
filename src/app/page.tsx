@@ -1,5 +1,6 @@
 import { switchThemeDuration } from "@/constants";
 import NetworkList from "@/components/NetworkList";
+import AssetBox from "@/components/AssetBox";
 
 export default function Home() {
   return (
@@ -7,6 +8,7 @@ export default function Home() {
       <div className="flex flex-col justify-start gap-10">
         <div></div>
         <NetworkList />
+        <AssetBox />
       </div>
     </div>
   );
