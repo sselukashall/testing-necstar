@@ -17,7 +17,7 @@ const Navbar = () => {
       )}
       <div className="flex flex-row gap-4 items-center">
         <ThemeSwitcher />
-        <ConnectButton showBalance={false}/>
+        <ConnectButton showBalance={false} chainStatus="none" />
       </div>
     </div>
   )
