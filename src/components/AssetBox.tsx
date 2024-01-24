@@ -6,21 +6,14 @@ import { Alchemy } from "alchemy-sdk";
 
 import { Chains } from "@/app/web3-providers";
 import TransferBox from "./TransferBox";
-
-interface TokenType {
-  name: string;
-  symbol: string;
-  balance: string;
-  address: string;
-  logo?: string | null;
-}
+import { TokenInterface } from "@/interface";
 
 const AssetBox = () => {
   const { isConnected, address } = useAccount();
-  const [tokens, setTokens] = useState<TokenType[]>(); //state variable set to include ERC20 token assets
+  const [tokens, setTokens] = useState<TokenInterface[]>(); //state variable set to include ERC20 token assets
   const { chain } = useNetwork();
   const [isLoading, setIsLoading] = useState(false); // state variable to monitor if token assets are read completely
-  const [ seletecToken, setSelectedToken ] = useState();
+  const [seletecToken, setSelectedToken] = useState<TokenInterface | null>(null);
 
   // variable setting up alchemy as client dynamically according to chain and connectsion status
   const alchemy = useMemo(() => {
@@ -44,7 +37,7 @@ const AssetBox = () => {
 
         // promise that resolves all token assets for user wallet address
         const balances = await alchemy.core.getTokenBalances(walletAddress);
-        const tokenDetails: TokenType[] = await Promise.all(
+        const tokenDetails: TokenInterface[] = await Promise.all(
           balances.tokenBalances
             .filter((token) => token.tokenBalance !== "0") // removing tokens whose balance is below than zero
             .map(async (token) => {
@@ -60,9 +53,9 @@ const AssetBox = () => {
                 balance:
                   metadata.decimals !== null
                     ? (
-                        Number(token.tokenBalance) /
-                        Math.pow(10, metadata.decimals)
-                      ).toFixed(6)
+                      Number(token.tokenBalance) /
+                      Math.pow(10, metadata.decimals)
+                    ).toFixed(6)
                     : "0.000000",
                 address: token.contractAddress,
                 logo: metadata.logo,
@@ -81,37 +74,74 @@ const AssetBox = () => {
   useEffect(() => {
     if (isConnected && address) {
       fetchTokens(address);
-      console.log("tokens", tokens);
     }
   }, [address, chain, isConnected]);
 
+  useEffect(() => {
+    setSelectedToken(null);
+  }, [chain])
+
+  const handleTokenSelect = (token: TokenInterface) => {
+    setSelectedToken(token)
+  }
+
+  const handleTransferBoxClose = () => {
+    setSelectedToken(null);
+  }
+
   return (
     <div className="flex flex-col">
-      <div className=" text-lg/5 mb-4">Asset</div>
-      <div className="w-full h-[460px] border border-solid border-gray-500 p-2 flex flex-col dark:border-none dark:bg-zinc-900">
-        {isLoading && "token list is fetching..."}
-        {!isLoading &&
-          tokens?.map((token) => (
-            <button
-              key={token.address}
-              className="w-full px-3 py-1 hover:bg-orange-500 flex flex-row items-center justify-between dark:hover:bg-zinc-800"
-            >
-              <div className="flex flex-row gap-2 items-center">
-                <img
-                  src={token.logo || "/src/images/defaultLogo.svg"}
-                  width={24}
-                  height={24}
-                  alt="token-logo"
-                />
-                {token.name}
-              </div>
-              <div className="flex flex-row gap-2 items-center">
-                <div>{token.balance}</div>
-                <div>{token.symbol}</div>
-              </div>
-            </button>
-          ))}
-        <TransferBox transferredToken="ETH" />
+      <div className=" text-lg/5 mb-4">Asset</div >
+      <div className="w-full h-[460px] border border-solid border-gray-500">
+      {
+        seletecToken ? (
+          <div className="h-full flex flex-row">
+            <div className="w-20 h-full dark:bg-zinc-800 flex flex-col p-2">
+              {tokens?.map((token) => (
+                <div 
+                  key={token.address} 
+                  className={`"w-full h-10 flex flex-row justify-center items-center hover:cursor-pointer "${token.address === seletecToken.address && " bg-orange-500 dark:bg-[#212122]"}`}
+                  onClick={() => handleTokenSelect(token)}
+                >
+                  <img
+                    src={token.logo || "/src/images/defaultLogo.svg"}
+                    width={24}
+                    height={24}
+                    alt="token-logo"
+                  />
+                </div>
+              ))}
+            </div>
+            <TransferBox transferredToken={seletecToken} onClose={handleTransferBoxClose} />
+          </div>
+        ) : (
+          <div className="p-2 flex flex-col dark:border-none dark:bg-zinc-900">
+            {isLoading && "token list is fetching..."}
+            {!isLoading &&
+              tokens?.map((token) => (
+                <button
+                  key={token.address}
+                  className="w-full px-3 py-1 hover:bg-orange-500 flex flex-row items-center justify-between dark:hover:bg-zinc-800"
+                  onClick={() => handleTokenSelect(token)}
+                >
+                  <div className="flex flex-row gap-2 items-center">
+                    <img
+                      src={token.logo || "/src/images/defaultLogo.svg"}
+                      width={24}
+                      height={24}
+                      alt="token-logo"
+                    />
+                    {token.name}
+                  </div>
+                  <div className="flex flex-row gap-2 items-center">
+                    <div>{token.balance}</div>
+                    <div>{token.symbol}</div>
+                  </div>
+                </button>
+              ))}
+          </div>
+        )
+      }
       </div>
     </div>
   );
