@@ -1,3 +1,93 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes grow-right-to-left {
+  from {
+    transform-origin: right center;
+    transform: scaleX(0);
+  }
+
+  to {
+    transform-origin: right center;
+    transform: scaleX(1);
+  }
+}
+
+.funding-outside {
+  position: relative;
+  background-color: #AAAAAA;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 10px),
+    50% 100%,
+    0 calc(100% - 10px)
+  );
+  border-radius: 4px;
+}
+
+.funding-inside {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  right: 1px;
+  bottom: 1px;
+  background-color: white;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 10px),
+    50% 100%,
+    0 calc(100% - 10px)
+  );
+  border-radius: 4px;
+}
+
+.dark .funding-outside {
+  background-color: transparent;
+}
+
+.dark .funding-inside {
+  background-color: #212122;
+  color: #E7E7E7;
+}
+
+.trading-outside {
+  position: relative;
+  background-color: #AAAAAA;
+  clip-path: polygon(
+    0 0,
+    50% 10px,
+    100% 0,
+    100% 100%,
+    0 100%
+  );
+  border-radius: 4px;
+}
+
+.trading-inside {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  right: 1px;
+  bottom: 1px;
+  background-color: white;
+  clip-path: polygon(
+    0 0,
+    50% 10px,
+    100% 0,
+    100% 100%,
+    0 100%
+  );
+  border-radius: 4px;
+}
+
+.dark .trading-inside {
+  background-color: #212122;
+  color: #E7E7E7;
+}
+
+.dark .trading-outside {
+  background-color: transparent;
+}

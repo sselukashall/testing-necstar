@@ -13,6 +13,9 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      animation: {
+        'grow-right-to-left': 'grow-right-to-left 1s ease-in-out forwards',
+      },
     },
   },
   plugins: [],
