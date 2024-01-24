@@ -5,6 +5,7 @@ import { Chain, useAccount, useNetwork } from "wagmi";
 import { Alchemy } from "alchemy-sdk";
 
 import { Chains } from "@/app/web3-providers";
+import TransferBox from "./TransferBox";
 
 interface TokenType {
   name: string;
@@ -19,6 +20,7 @@ const AssetBox = () => {
   const [tokens, setTokens] = useState<TokenType[]>(); //state variable set to include ERC20 token assets
   const { chain } = useNetwork();
   const [isLoading, setIsLoading] = useState(false); // state variable to monitor if token assets are read completely
+  const [ seletecToken, setSelectedToken ] = useState();
 
   // variable setting up alchemy as client dynamically according to chain and connectsion status
   const alchemy = useMemo(() => {
@@ -92,7 +94,7 @@ const AssetBox = () => {
           tokens?.map((token) => (
             <button
               key={token.address}
-              className="w-full px-3 py-1 hover:bg-orange-500 flex flex-row items-center justify-between"
+              className="w-full px-3 py-1 hover:bg-orange-500 flex flex-row items-center justify-between dark:hover:bg-zinc-800"
             >
               <div className="flex flex-row gap-2 items-center">
                 <img
@@ -109,6 +111,7 @@ const AssetBox = () => {
               </div>
             </button>
           ))}
+        <TransferBox transferredToken="ETH" />
       </div>
     </div>
   );

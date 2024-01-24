@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.className} bg-slate-50 dark:bg-[#0d1117] ${switchThemeDuration}`}
+        className={`${inter.className} dark:bg-[#0A0A0A] ${switchThemeDuration}`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Web3Providers>
